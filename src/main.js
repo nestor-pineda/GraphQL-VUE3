@@ -7,7 +7,8 @@ import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client/core
 // HTTP connection to the API
 const httpLink = createHttpLink({
   // You should use an absolute URL here
-  uri: "https://graphqlzero.almansi.me/api",
+  // uri: "https://graphqlzero.almansi.me/api",
+  uri: "https://graphql.contentful.com/content/v1/spaces/68rpjdtc5ggd?access_token=J7GPpPJNIUMliQ6gnh_eraQBdWW3ntuYKPzEf-vg9NI",
 });
 
 // Cache implementation
