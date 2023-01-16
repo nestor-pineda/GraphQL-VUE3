@@ -9,7 +9,8 @@
 
   <ul v-else>
     <li v-for="car in cars" :key="car.id">
-      {{ car.title }}
+      <div>{{ car.title }}</div>
+      <div><img v-bind:src="`${car.featureImage.url}`" v-bind:alt="`${car.featureImage.title}`" /></div>
     </li>
   </ul>
 
@@ -62,7 +63,10 @@ export default {
           total
           items {
             title
-            slug
+            featureImage {
+              title
+              url
+            }
           }
         }
       }
