@@ -4,11 +4,13 @@ import { DefaultApolloClient } from "@vue/apollo-composable";
 
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client/core";
 
+const { VUE_APP_SPACE_ID, VUE_APP_CDA_TOKEN } = process.env;
+
 // HTTP connection to the API
 const httpLink = createHttpLink({
   // You should use an absolute URL here
   // uri: "https://graphqlzero.almansi.me/api",
-  uri: "https://graphql.contentful.com/content/v1/spaces/68rpjdtc5ggd?access_token=J7GPpPJNIUMliQ6gnh_eraQBdWW3ntuYKPzEf-vg9NI",
+  uri: `https://graphql.contentful.com/content/v1/spaces/${VUE_APP_SPACE_ID}?access_token=${VUE_APP_CDA_TOKEN}`,
 });
 
 // Cache implementation
