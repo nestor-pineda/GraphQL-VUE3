@@ -1,16 +1,22 @@
 <template>
   <p v-if="error">{{ error }}</p>
   <p v-if="loaging">Loading...</p>
-  <!-- <ul v-else>
-    <li v-for="user in users" :key="user.id">
-      {{ user.name }}
-    </li>
-  </ul> -->
-
   <ul v-else>
-    <li v-for="car in cars" :key="car.id">
-      <div>{{ car.title }}</div>
-      <div><img v-bind:src="`${car.featureImage.url}`" v-bind:alt="`${car.featureImage.title}`" /></div>
+    <li
+      v-for="car in cars"
+      :key="car.sys.id"
+    >
+      <div>
+        <h3>{{ car.title }}</h3>
+        <p>{{ car.sys.id }}</p>
+      </div>
+
+      <div>
+        <img
+          v-bind:src="`${car.featureImage.url}`"
+          v-bind:alt="`${car.featureImage.title}`"
+        />
+      </div>
     </li>
   </ul>
 
@@ -28,51 +34,40 @@
 </template>
 
 <script>
-import { useQuery } from "@vue/apollo-composable";
-import gql from "graphql-tag";
-import { computed, watchEffect } from "vue";
+import { useQuery } from '@vue/apollo-composable';
+// import gql from 'graphql-tag';
+import { computed, watchEffect, ref } from 'vue';
+import ALL_CARS_QUERY from '@/graphql/queries/getAllCars';
 
 export default {
-  name: "App",
-  // setup() {
-  //   const ALL_USERS_QUERY = gql`
-  //     query {
-  //       users {
-  //         data {
-  //           id
-  //           name
-  //           email
-  //         }
-  //       }
-  //     }
-  //   `;
-
-  //   const { result, loading, error } = useQuery(ALL_USERS_QUERY);
-  //   const users = computed(() => result.value?.users.data);
-
-  //   watchEffect(() => {
-  //     console.log(users);
-  //   });
-
-  //   return { users, loading, error };
-  // },
+  name: 'App',
   setup() {
-    const ALL_CARS_QUERY = gql`
-      query {
-        carProfilesCollection {
-          total
-          items {
-            title
-            featureImage {
-              title
-              url
-            }
-          }
-        }
-      }
-    `;
+    // const ALL_CARS_QUERY = gql`
+    //   query GetAllCars($limit: Int) {
+    //     carProfilesCollection(
+    //       limit: $limit
+    //       where: { OR: [{ thumnail_exists: true }] }
+    //     ) {
+    //       total
+    //       items {
+    //         title
+    //         sys {
+    //           id
+    //         }
+    //         featureImage {
+    //           title
+    //           url
+    //         }
+    //       }
+    //     }
+    //   }
+    // `;
 
-    const { result, loading, error } = useQuery(ALL_CARS_QUERY);
+    const VARIABLES = ref({
+      limit: 8,
+    });
+
+    const { result, loading, error } = useQuery(ALL_CARS_QUERY, VARIABLES);
     const cars = computed(() => result.value?.carProfilesCollection.items);
 
     watchEffect(() => {
